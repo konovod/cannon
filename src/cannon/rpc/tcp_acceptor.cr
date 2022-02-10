@@ -20,7 +20,7 @@ module Cannon
       # connections.
       def initialize(@manager : Manager, @server : TCPServer, @tcp_nodelay : Bool = false, @sync : Bool = false)
         @running = true
-        @on_new_connection = ->(x : TcpConnection){ nil }
+        @on_new_connection = ->(x : TcpConnection) { nil }
       end
 
       # Closes the server and stops accepting connections.

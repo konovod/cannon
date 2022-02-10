@@ -11,7 +11,7 @@ module Cannon
 
       # No-result version, runs concurrently in a background fiber.
       def call_remotely(service_id : UInt32, function_hash : UInt32, arguments : Tuple?)
-        spawn{ do_call(service_id, function_hash, arguments, false) }
+        spawn { do_call(service_id, function_hash, arguments, false) }
       end
 
       private def result_to_io(writer)

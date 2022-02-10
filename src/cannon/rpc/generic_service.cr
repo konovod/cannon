@@ -4,7 +4,7 @@ module Cannon
     # You're probably looking for `Service` or `RemoteService`.
     module GenericService
       alias ResponseWriter = IO -> IO
-      NOOP_WRITER = ->(io : IO){ io }
+      NOOP_WRITER = ->(io : IO) { io }
 
       # The `Manager` this service is registered to
       property! manager : Manager?

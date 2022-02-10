@@ -47,12 +47,12 @@ module Cannon
         UInt8, UInt16, UInt32, UInt64,
         Int8, Int16, Int32, Int64,
         Float32, Float64,
-        Bool
+        Bool,
       }.includes?(type) || \
-        type.responds_to?(:use_fast_cannon?) || \
-        (type == Tuple && type.responds_to?(:map) && ::Cannon.simple?(type.map(&.class)))
-        # The above `responds_to?(:map)` just tells the compiler that indeed,
-        # Tuples respond to `#map`.
+         type.responds_to?(:use_fast_cannon?) || \
+           (type == Tuple && type.responds_to?(:map) && ::Cannon.simple?(type.map(&.class)))
+      # The above `responds_to?(:map)` just tells the compiler that indeed,
+      # Tuples respond to `#map`.
     end
   end
 

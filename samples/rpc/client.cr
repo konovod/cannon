@@ -15,9 +15,9 @@ service_manager = Cannon::Rpc::Manager.new
 connection = Cannon::Rpc::TcpConnection.new service_manager, socket
 greeter = GreetClient.new connection
 
-spawn{ connection.run }
+spawn { connection.run }
 pp greeter.greet("Alice")
-pp greeter.greet([ "Alice", "Bob", "Charlie" ])
+pp greeter.greet(["Alice", "Bob", "Charlie"])
 
 start = Time.now
 pong = greeter.ping Time.now

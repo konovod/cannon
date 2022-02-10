@@ -5,7 +5,7 @@ require "../src/cannon/rpc"
 # RPC helpers
 require "./rpc/service_fixtures"
 
-## Helper methods
+# # Helper methods
 
 # If you're looking at the specs to learn how to use this library, use this
 # method for inspiration.  It always uses the fastest solution, and gracefully

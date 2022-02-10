@@ -2,7 +2,6 @@ module Cannon
   module Rpc
     # Protocol structures.  May be used by `Connection` implementations.
     module Protocol
-
       # Flags for the `Header`
       @[Flags]
       enum Flags : UInt8

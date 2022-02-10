@@ -21,21 +21,21 @@ module Cannon
 
         RPC_METHODS = {
           0u32 => "release[]",
-          {% for meth in T.methods.select{|m| m.visibility == :public} %}
+          {% for meth in T.methods.select { |m| m.visibility == :public } %}
             ::Cannon::Rpc::Macro.hash({{ meth.name.stringify + meth.args.stringify }}) => {{ meth.name.stringify + meth.args.stringify }},
           {% end %}
         }
 
         def rpc_invoke(function_hash : UInt32, io, connection : ::Cannon::Rpc::Connection) : ResponseWriter
           case function_hash
-            {% for meth, idx in T.methods.select{|m| m.visibility == :public} %}
+            {% for meth, idx in T.methods.select { |m| m.visibility == :public } %}
             when ::Cannon::Rpc::Macro.hash({{ meth.name.stringify + meth.args.stringify }})
               {% pass_conn = (meth.args.last && meth.args.last.restriction.is_a?(Path) && meth.args.last.restriction.resolve == Cannon::Rpc::Connection) %}
 
               {% if meth.args.size > (pass_conn ? 1 : 0) %}
                 %args{idx} = ::Cannon.decode(io, Tuple({{
-                  meth.args[0..(pass_conn ? -2 : -1)].map(&.restriction).splat
-                  }}))
+                                                         meth.args[0..(pass_conn ? -2 : -1)].map(&.restriction).splat
+                                                       }}))
               {% end %}
 
               %result{idx} = {{ meth.name.id }}({% if meth.args.size > 0 %}
@@ -44,7 +44,7 @@ module Cannon
               {% end %}
               )
 
-              {% if meth.return_type && ![ "Nil", "Void" ].includes?(meth.return_type.stringify) %}
+              {% if meth.return_type && !["Nil", "Void"].includes?(meth.return_type.stringify) %}
                 ->(io : IO){ ::Cannon.encode(io, %result{idx}.as({{ meth.return_type }})) }
               {% else %}
                 NOOP_WRITER
@@ -60,14 +60,14 @@ module Cannon
           err_ch = Channel(Exception).new
 
           case function_hash
-            {% for meth, idx in T.methods.select{|m| m.visibility == :public} %}
+            {% for meth, idx in T.methods.select { |m| m.visibility == :public } %}
             when ::Cannon::Rpc::Macro.hash({{ meth.name.stringify + meth.args.stringify }})
               {% pass_conn = (meth.args.last && meth.args.last.restriction.is_a?(Path) && meth.args.last.restriction.resolve == Cannon::Rpc::Connection) %}
 
               {% if meth.args.size > (pass_conn ? 1 : 0) %}
                 %args{idx} = ::Cannon.decode(io, Tuple({{
-                  meth.args[0..(pass_conn ? -2 : -1)].map(&.restriction).splat
-                  }}))
+                                                         meth.args[0..(pass_conn ? -2 : -1)].map(&.restriction).splat
+                                                       }}))
               {% end %}
 
               spawn do
@@ -78,7 +78,7 @@ module Cannon
                   {% end %}
                   )
 
-                  {% if meth.return_type && ![ "Nil", "Void" ].includes?(meth.return_type.stringify) %}
+                  {% if meth.return_type && !["Nil", "Void"].includes?(meth.return_type.stringify) %}
                     ch.send ->(io : IO){ ::Cannon.encode(io, %result{idx}.as({{ meth.return_type }})) }
                   {% else %}
                     ch.send NOOP_WRITER

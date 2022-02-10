@@ -12,9 +12,9 @@ module Cannon
     # error) will be silently dropped.
     #
     # ## Calling Example
-    # ```crystal
+    # ```
     # my_service = MyServiceClient.new(my_connection, the_identifier)
-    # pp my_service.greet("You") # Will wait for the response
+    # pp my_service.greet("You")                  # Will wait for the response
     # pp my_service.greet_without_response("You") # Will NOT wait
     # ```
     #
@@ -23,7 +23,7 @@ module Cannon
       macro included
         include T
 
-        {% for meth in T.methods.select{|m| m.visibility == :public && m.name != "singleton_service_id"} %}
+        {% for meth in T.methods.select { |m| m.visibility == :public && m.name != "singleton_service_id" } %}
           {% pass_conn = (meth.args.last && meth.args.last.restriction.is_a?(Path) && meth.args.last.restriction.resolve == Cannon::Rpc::Connection) %}
           {% conn_arg = meth.args.last.name if pass_conn %}
           {% args = pass_conn ? meth.args[0...-1] : meth.args %}

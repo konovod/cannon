@@ -81,7 +81,7 @@ module Cannon
       end
 
       private def find_handle
-        id = (0u8..255u8).find{|i| !@handles.includes?(i)}
+        id = (0u8..255u8).find { |i| !@handles.includes?(i) }
 
         if id.nil?
           raise "Unable to find unused handle!"

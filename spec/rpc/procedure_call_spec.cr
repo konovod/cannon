@@ -27,16 +27,16 @@ describe "procedure calling" do
 
   it "propagates remote errors back to the caller" do
     svc = my_service
-    sequence = [ ] of Int32
+    sequence = [] of Int32
 
-    svc.connection.on_local_error{|_e| sequence << 1; nil}
-    svc.connection.on_remote_error{|_e| sequence << 2; nil}
+    svc.connection.on_local_error { |_e| sequence << 1; nil }
+    svc.connection.on_remote_error { |_e| sequence << 2; nil }
 
     expect_raises(Cannon::Rpc::RemoteError) do
       svc.raise_an_error
     end
 
-    sequence.should eq [ 1, 2 ]
+    sequence.should eq [1, 2]
   end
 
   it "supports call-and-forget" do
@@ -46,15 +46,15 @@ describe "procedure calling" do
 
   it "ignores errors on call-and-forget" do
     svc = my_service
-    sequence = [ ] of Int32
+    sequence = [] of Int32
 
-    svc.connection.on_local_error{|_e| sequence << 1; nil}
-    svc.connection.on_remote_error{|_e| sequence << 2; nil}
+    svc.connection.on_local_error { |_e| sequence << 1; nil }
+    svc.connection.on_remote_error { |_e| sequence << 2; nil }
 
     svc.raise_an_error_without_response # Doesn't raise on our end
-    Fiber.yield # Wait for the method to run
+    Fiber.yield                         # Wait for the method to run
 
-    sequence.should eq [ 1 ]
+    sequence.should eq [1]
   end
 
   it "can release the remote service manually" do
@@ -73,7 +73,7 @@ describe "procedure calling" do
     svc_id = conn.manager.add(FooService.new, owner: conn)
 
     # Build the owning client in a separate scope
-    builder = -> do
+    builder = ->do
       client = FooClient.new conn, svc_id, true
       conn.manager.has_service?(svc_id).should eq true
     end
@@ -81,11 +81,11 @@ describe "procedure calling" do
     builder.call
 
     # Force garbage collection
-    10.times{ GC.collect }
+    10.times { GC.collect }
 
     if conn.manager.has_service?(svc_id) # Retry ...
       sleep 0.25
-      10.times{ GC.collect }
+      10.times { GC.collect }
     end
 
     conn.manager.has_service?(svc_id).should eq false

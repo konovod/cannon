@@ -49,12 +49,12 @@ describe "Cannon serialisation" do
       end
 
       it "works with Tuple" do
-        tuple = { 1, true, 4.5f32 }
+        tuple = {1, true, 4.5f32}
         en_decode(tuple, 3 * 4).should eq tuple
       end
 
       it "works with nested Tuple" do
-        tuple = { 1, { true, 8u8 }, 4.5f32 }
+        tuple = {1, {true, 8u8}, 4.5f32}
         en_decode(tuple, 4 + 1 + 1 + 4).should eq tuple
       end
 
@@ -121,7 +121,7 @@ describe "Cannon serialisation" do
 
   context "complex types" do
     it "works with Slice of simple type" do
-      slice = Slice(Int32).new(5){|i| i * i}
+      slice = Slice(Int32).new(5) { |i| i * i }
       en_decode(slice, 6 * 4).should eq slice
     end
 
@@ -153,12 +153,12 @@ describe "Cannon serialisation" do
     end
 
     it "works with Hash" do
-      hsh = { "foo" => "bar" }
+      hsh = {"foo" => "bar"}
       en_decode(hsh, 4 + 7 + 7).should eq hsh
     end
 
     it "works with a nested Hash" do
-      hsh = { "foo" => "bar", "another" => { "it" => "works!" } }
+      hsh = {"foo" => "bar", "another" => {"it" => "works!"}}
       en_decode(hsh, 4 + 7 + 8 + 11 + 5 + 6 + 10).should eq hsh
     end
 
@@ -176,15 +176,14 @@ describe "Cannon serialisation" do
     end
 
     it "works with StaticArray with simple types" do
-      data = StaticArray(Int32, 16).new{|i| i*2}
+      data = StaticArray(Int32, 16).new { |i| i*2 }
       en_decode(data, 16*4).should eq data
     end
 
     it "works with StaticArray with complex types" do
-      data = StaticArray(String, 4).new{|i| i.to_s}
+      data = StaticArray(String, 4).new { |i| i.to_s }
       en_decode(data, 4*5).should eq data
     end
-
   end
 
   context "union types" do

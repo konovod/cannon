@@ -7,7 +7,7 @@ class Object
   end
 end
 
-{% for k in [ UInt8, UInt16, UInt32, UInt64, Int8, Int16, Int32, Int64, Float32, Float64 ] %}
+{% for k in [UInt8, UInt16, UInt32, UInt64, Int8, Int16, Int32, Int64, Float32, Float64] %}
 struct {{ k }}
   # Writes the `{{ k }}` into *io*.
   def to_cannon_io(io)
@@ -55,7 +55,7 @@ struct Slice(T)
     if ::Cannon.simple?(T)
       io.write to_unsafe.as(UInt8*).to_slice(bytesize)
     else
-      each{|v| ::Cannon.encode(io, v)}
+      each { |v| ::Cannon.encode(io, v) }
     end
 
     io
@@ -90,7 +90,7 @@ class String
 
     new bytesize do |buffer|
       io.read_fully buffer.to_slice(bytesize)
-      { bytesize , 0 }
+      {bytesize, 0}
     end
   end
 end
@@ -102,7 +102,7 @@ class Array(T)
       to_unsafe.to_slice(size).to_cannon_io io
     else
       io.write_bytes size
-      each{|v| ::Cannon.encode(io, v)}
+      each { |v| ::Cannon.encode(io, v) }
     end
 
     io
@@ -117,7 +117,7 @@ class Array(T)
       io.read_fully ary.to_unsafe.as(UInt8*).to_slice(count * sizeof(T))
       ary.size = count
     else
-      count.times{ ary << ::Cannon.decode(io, T).as(T) }
+      count.times { ary << ::Cannon.decode(io, T).as(T) }
     end
 
     ary
@@ -181,7 +181,7 @@ struct Union(*T)
         raise "Unknown type_id #{type_id} (Structure mismatch?)"
       end
     {% end %}
-	end
+  end
 end
 
 struct Tuple(*T)

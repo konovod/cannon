@@ -13,8 +13,8 @@ module Cannon
       @on_remote_error : RemoteError -> Nil
 
       def initialize(@manager : Manager)
-        @on_local_error = ->(_e : Exception){ }
-        @on_remote_error = ->(_e : RemoteError){ }
+        @on_local_error = ->(_e : Exception) {}
+        @on_remote_error = ->(_e : RemoteError) {}
       end
 
       # Sets a handler called when a locally called method threw an error.
@@ -69,8 +69,11 @@ module Cannon
       INSTANCE = new(Manager.new)
 
       def call_remotely(service_id : UInt32, function_hash : UInt32, arguments : Tuple?, &block : IO -> _); end
+
       def call_remotely(service_id : UInt32, function_hash : UInt32, arguments : Tuple?); end
+
       def release_remote_service(service_id : UInt32); end
+
       def run; end
     end
   end

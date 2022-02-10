@@ -62,9 +62,9 @@ describe Cannon::Rpc::Manager do
     it "recycles unused ids at some point" do
       mgr = build_manager
 
-      services = Array(FooService).new(10){ FooService.new }
-      services.each{|svc| mgr.add svc}
-      services.each{|svc| mgr.release svc}
+      services = Array(FooService).new(10) { FooService.new }
+      services.each { |svc| mgr.add svc }
+      services.each { |svc| mgr.release svc }
 
       mgr.has_service?(0u32).should eq false
       mgr.has_service?(1u32).should eq true
