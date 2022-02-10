@@ -151,7 +151,7 @@ class Hash(K, V)
   end
 end
 
-struct Union(T)
+struct Union(*T)
   # Writes a value to *io*.
   def self.to_cannon_io(io, value)
     {% begin %}

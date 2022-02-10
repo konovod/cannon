@@ -9,8 +9,11 @@ module FooDescription
 
   abstract def raise_an_error
 
-  abstract def tell_me(conn : Cannon::Rpc::Connection) : String
-  abstract def tell_me(leading : String, conn : Cannon::Rpc::Connection) : String
+  def tell_me(conn : Cannon::Rpc::Connection) : String
+  end
+
+  def tell_me(leading : String, conn : Cannon::Rpc::Connection) : String
+  end
 end
 
 module BarDescription

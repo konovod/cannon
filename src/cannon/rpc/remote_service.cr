@@ -33,7 +33,7 @@ module Cannon
               {{ arg.name }} : {{ arg.restriction }} {% if arg.default_value %} = {{ arg.default_value }} {% end %},
             {% end %}
             {% if pass_conn %}*, {{ conn_arg }} : Cannon::Rpc::Connection = Cannon::Rpc::NullConnection::INSTANCE{% end %}
-          )
+          ) {{":".id if meth.return_type}} {{meth.return_type}}
             func = ::Cannon::Rpc::Macro.hash({{ meth.name.stringify + meth.args.stringify }})
 
             {% result = (meth.return_type.stringify == "Void") ? Nil : (meth.return_type || Nil) %}
