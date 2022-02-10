@@ -1,4 +1,8 @@
-# The Cannon [![Build Status](https://travis-ci.org/Papierkorb/cannon.svg?branch=master)](https://travis-ci.org/Papierkorb/cannon)
+# The Cannon 
+<a href="https://github.com/konovod/cannon/actions/workflows/ci.yml">
+      <img src="https://github.com/konovod/cannon/actions/workflows/ci.yml/badge.svg" alt="Build Status">
+</a>
+
 
 Really fast data de-/serialisation and remote procedure calling, for when your
 process has other things to do than data serialisation.
